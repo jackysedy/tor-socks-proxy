@@ -1,6 +1,5 @@
 FROM alpine:3.11
 
-LABEL maintainer="Peter Dave Hello <hsu@peterdavehello.org>"
 LABEL name="tor-socks-proxy"
 LABEL version="latest"
 
@@ -10,6 +9,7 @@ RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk
     chmod 700 /var/lib/tor && \
     rm -rf /var/cache/apk/* && \
     tor --version
+    
 ADD torrc /etc/tor/ skipcache
 
 HEALTHCHECK --timeout=10s --start-period=60s \
