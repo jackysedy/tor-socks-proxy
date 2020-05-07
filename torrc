@@ -1,5 +1,7 @@
 User tor
 MaxCircuitDirtiness 10
+CircuitBuildTimeout 10
+LearnCircuitBuildTimeout 0
 HardwareAccel 1
 Log notice stdout
 SocksPort 0.0.0.0:9150
