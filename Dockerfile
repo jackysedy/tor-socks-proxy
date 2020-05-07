@@ -10,7 +10,7 @@ RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk
     rm -rf /var/cache/apk/* && \
     tor --version
     
-ADD torrc /etc/tor/ skipcache
+COPY torrc /etc/tor/ 
 
 HEALTHCHECK --timeout=10s --start-period=60s \
     CMD curl --fail --socks5-hostname localhost:9150 -I -L 'https://www.facebookcorewwwi.onion/' || exit 1
