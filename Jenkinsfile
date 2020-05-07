@@ -5,7 +5,7 @@ pipeline {
             steps{
                 sh """
                     echo "hello"
-                    docker 
+                    docker build -t tor-socks-proxy .
                 """
             }
         }
