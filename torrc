@@ -1,6 +1,7 @@
 User tor
+MaxCircuitDirtiness 1
 HardwareAccel 1
 Log notice stdout
 SocksPort 0.0.0.0:9150
 DataDirectory /var/lib/tor
-MaxCircuitDirtiness 1
+
