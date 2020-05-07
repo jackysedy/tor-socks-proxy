@@ -5,6 +5,6 @@ node {
         customImage.push()
     }
     sh """
-        docker-compose up
+        docker-compose up -d
     """
 }
