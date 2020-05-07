@@ -1,5 +1,5 @@
 User tor
-MaxCircuitDirtiness 1
+MaxCircuitDirtiness 10
 HardwareAccel 1
 Log notice stdout
 SocksPort 0.0.0.0:9150
