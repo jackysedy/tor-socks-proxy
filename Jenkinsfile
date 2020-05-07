@@ -4,8 +4,10 @@ pipeline {
         stage("check branches"){
             steps{
                 sh """
-                    echo "hello"
+                    dockerImage = docker.build("tor-socks-proxy")
+                    docker login --username=jackysedi --email=jacky.sedi@hotmail.com
                     docker build -t tor-socks-proxy .
+                    docker push
                 """
             }
         }
