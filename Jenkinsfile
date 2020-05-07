@@ -7,5 +7,4 @@ node {
     sh """
         docker-compose up -d
     """
-    deleteDir()
 }
