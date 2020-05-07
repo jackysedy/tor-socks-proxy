@@ -1,4 +1,5 @@
 User tor
+NewCircuitPeriod 10
 MaxCircuitDirtiness 10
 CircuitBuildTimeout 10
 LearnCircuitBuildTimeout 0
