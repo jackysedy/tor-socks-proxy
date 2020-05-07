@@ -5,7 +5,6 @@ node {
         def customImage = docker.build("jackysedi/tor-socks-proxy:latest")
         customImage.push()
     }
-    sh """
-        docker-compose up -d
-    """
+    step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
+
 }
