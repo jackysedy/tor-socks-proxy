@@ -4,7 +4,8 @@ node {
     docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
         def customImage = docker.build("jackysedi/tor-socks-proxy:latest")
         customImage.push()
+        step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
     }
-    step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
+    
 
 }
