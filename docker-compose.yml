@@ -24,7 +24,7 @@ services:
      
 networks:
   proxy:
-    driver: custom-driver-1
+    driver: bridge
   test:
-    driver: custom-driver-2
+    driver: bridge
      
