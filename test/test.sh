@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sleep 10
 runtime="2 minute"
 endtime=$(date -ud "$runtime" +%s)
 
