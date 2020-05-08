@@ -5,7 +5,7 @@ node {
     """
     def Port
     println BRANCH_NAME
-    if (BRANCH_NAME.contains('release')){
+    if (BRANCH_NAME.contains('master')){
         sh """
             sed -i 's/9150/7293/g' Dockerfile
         """
