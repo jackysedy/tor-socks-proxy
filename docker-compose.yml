@@ -8,6 +8,8 @@ services:
     image: registry-1.docker.io/jackysedi/tor-socks-proxy:latest
     ports:
       - "127.0.0.1:XXXX:9150"
+    networks:
+      - proxy
     restart: unless-stopped
     
   test:
@@ -16,3 +18,13 @@ services:
     image: test:latest
     environment:
      - PORT=XXXX
+    networks:
+      - test
+     
+     
+networks:
+  proxy:
+    driver: custom-driver-1
+  test:
+    driver: custom-driver-2
+     
