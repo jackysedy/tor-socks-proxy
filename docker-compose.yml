@@ -26,5 +26,5 @@ networks:
   proxy:
     driver: bridge
   test:
-    driver: bridge
+    driver: host
      
