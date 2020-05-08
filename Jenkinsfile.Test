@@ -5,21 +5,11 @@ node {
     }
     stage('chooseDockerTags') {
         if ( currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ){
-            def image = "IMAGE"
-            def url = "https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy/tags" 
-            def list = getDockerImageTags(url)
-            list = sortReverse(list)
-            def versions = list.join("\n")
-            def userInput = input(
-             id: 'userInput', message: 'Promote:', parameters: [
-                    [$class: 'ChoiceParameterDefinition', choices: versions, description: 'Versions', name: 'version']
-             ]
-            )   
-            println "Pulling Tag: $userInput"
+
             sh """
-                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${userInput}/g' docker-compose.yml
+                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${Tags}/g' docker-compose.yml
             """    
-            def values = userInput.split('_')
+            def values = Tags.split('_')
             Port = values[1]
             sh"""
                 sed -i 's/XXXX/${Port}/g' docker-compose.yml
@@ -44,26 +34,4 @@ node {
             """
         }
     }
-}
-
-@NonCPS
-def sortReverse(list) {
-    list.reverse()
-}
-
-def getDockerImageTags(url) {
-    def myjson = getUrl(url)
-    def json = jsonParse(myjson);
-    def tags = json.name
-    tags
-}
-
-def jsonParse(json) {
-    new groovy.json.JsonSlurper().parseText(json)
-}
-
-def getUrl(url) {
-    sh(returnStdout: true, script: "curl -s ${url} 2>&1 | tee result.json")
-    def data = readFile('result.json').trim()
-    data
 }
