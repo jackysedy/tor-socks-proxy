@@ -14,3 +14,5 @@ services:
     container_name: test
     hostname: test
     image: test:latest
+    environment:
+     - PORT=XXXX
