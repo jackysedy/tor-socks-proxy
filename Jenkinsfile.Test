@@ -59,6 +59,7 @@ node {
         docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
             sh """
                 docker-compose up --abort-on-container-exit 
+                docker rm test tor-socks-proxy
             """
         }
     }
