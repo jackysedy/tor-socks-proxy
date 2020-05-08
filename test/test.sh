@@ -14,7 +14,7 @@ do
         echo "Test Fail : last IP = $lastIP New IP = $TorIP" 
         exit 1
     fi
-lastIP=$TorIP
-sleep 10
+    lastIP=$TorIP
+    sleep 10
 Done
 
