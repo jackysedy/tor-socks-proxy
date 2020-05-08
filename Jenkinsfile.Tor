@@ -22,5 +22,5 @@ node {
         def customImage = docker.build("jackysedi/tor-socks-proxy:${BUILD_NUMBER}_${Port}")
         customImage.push()
     }
-    build job: 'test', parameters: [string(name: 'Tag', value: BUILD_NUMBER), string(name: 'Port', value: Port)]
+    build job: 'test', parameters: [string(name: 'Tag', value: BUILD_NUMBER), string(name: 'Port', value: "${Port}")]
 }
