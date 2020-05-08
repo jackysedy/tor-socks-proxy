@@ -3,9 +3,26 @@ node {
     sh """
         env
     """
+
+    def Port
+    println BRANCH_NAME
+    
+
     git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
+    if (BRANCH_NAME.contains('master')){
+        sh """
+            sed -i 's/9150/7293/g' Dockerfile
+        """
+        Port=7293
+    }else if(BRANCH_NAME.contains('dev')){
+        sh """
+            sed -i 's/9150/5234/g' Dockerfile
+        """
+        Port=5234
+    }
     docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-        def customImage = docker.build("jackysedi/tor-socks-proxy:${BUILD_NUMBER}")
+        def customImage = docker.build("jackysedi/tor-socks-proxy:${BUILD_NUMBER}_${Port}")
         customImage.push()
     }
+    build job: 'test', parameters: [string(name: 'Tag', value: BUILD_NUMBER), string(name: 'Port', value: "${Port}")]
 }
