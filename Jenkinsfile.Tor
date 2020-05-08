@@ -13,7 +13,7 @@ node {
             sed -i 's/9150/7293/g' Dockerfile
         """
         Port=7293
-    }else if(BRANCH_NAME.contains('develop')){
+    }else if(BRANCH_NAME.contains('dev')){
         sh """
             sed -i 's/9150/5234/g' Dockerfile
         """
