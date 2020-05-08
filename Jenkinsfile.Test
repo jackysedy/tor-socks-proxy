@@ -17,28 +17,32 @@ node {
             )   
             println "Pulling Tag: $userInput"
             sh """
-                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:$userInput/g' docker-compose.yml
+                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${userInput}/g' docker-compose.yml
             """    
             def values = userInput.split('_')
             Port = values[1]
             sh"""
-                sed -i 's/127.0.0.1:9150/127.0.0.1:$Port/g' docker-compose.yml
+                sed -i 's/XXXX/${Port}/g' docker-compose.yml
             """
         }
         else{
             println "Pulling Tag: $Tag"
             sh """
                 sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${Tag}_${Port}/g' docker-compose.yml
-            
+                sed -i 's/XXXX/$Port/g' docker-compose.yml
+                
             """
         }
         sh """
             cd test
-            sed -i 's/9150/${Port}/g' test.sh
             docker build --no-cache -t test .
             cd ..
-            docker-compose up --abort-on-container-exit 
         """
+        docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
+            sh """
+                docker-compose up --abort-on-container-exit 
+            """
+        }
     }
 }
 
