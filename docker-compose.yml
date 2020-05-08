@@ -7,7 +7,7 @@ services:
     hostname: tor-socks-proxy
     image: registry-1.docker.io/jackysedi/tor-socks-proxy:latest
     ports:
-      - "127.0.0.1:9150:9150"
+      - "127.0.0.1:XXXX:9150"
     restart: unless-stopped
     
   test:
