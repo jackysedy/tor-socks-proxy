@@ -1,65 +1,68 @@
+import groovy.json.JsonSlurper
 
+properties([
+        parameters([
+            choice(name: 'DockerTAG', choices: JustTest().join('\n'), description: 'Docker TAGS'),
+            string(name: 'Tag', defaultValue: ''),
+            string(name: 'Port', defaultValue: ''),
+        ])
+    ])
+def JustTest(){
+    docker_image_tags_url = "https://hub.docker.com/v2/repositories/jackysedi/tor-socks-proxy/tags/?page_size=20"
+    try {
+        def http_client = new URL(docker_image_tags_url).openConnection() as HttpURLConnection
+        http_client.setRequestMethod('GET')
+        http_client.connect()
+        def dockerhub_response = [:]    
+        if (http_client.responseCode == 200) {
+            dockerhub_response = new JsonSlurper().parseText(http_client.inputStream.getText('UTF-8'))
+        } else {
+            println("HTTP response error")
+            System.exit(0)
+        }
+        def image_tag_list = []
+        dockerhub_response.results.each { tag_metadata ->
+            image_tag_list.add(tag_metadata.name)    
+        }
+        return image_tag_list.sort()
+    } catch (Exception e) {
+             // handle exceptions like timeout, connection errors, etc.
+             println(e)
+    }
+}
 node {
     stage("Git"){
         git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
     }
     stage('chooseDockerTags') {
         if ( currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ){
-            def image = "IMAGE"
-            def url = "https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy/tags" 
-            def list = getDockerImageTags(url)
-            list = sortReverse(list)
-            def versions = list.join("\n")
-            def userInput = input(
-             id: 'userInput', message: 'Promote:', parameters: [
-                    [$class: 'ChoiceParameterDefinition', choices: versions, description: 'Versions', name: 'version']
-             ]
-            )   
-            println "Pulling Tag: $userInput"
             sh """
-                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:$userInput/g' docker-compose.yml
+                sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${DockerTAG}/g' docker-compose.yml
             """    
-            def values = userInput.split('_')
+            def values = DockerTAG.split('_')
             Port = values[1]
             sh"""
-                sed -i 's/127.0.0.1:9150/127.0.0.1:$Port/g' docker-compose.yml
+                sed -i 's/XXXX/${Port}/g' docker-compose.yml
             """
         }
         else{
             println "Pulling Tag: $Tag"
             sh """
                 sed -i 's/tor-socks-proxy:latest/tor-socks-proxy:${Tag}_${Port}/g' docker-compose.yml
-            
+                sed -i 's/XXXX/$Port/g' docker-compose.yml
+                
             """
         }
         sh """
             cd test
-            sed -i 's/9150/${Port}/g' test.sh
             docker build --no-cache -t test .
             cd ..
-            docker-compose up --abort-on-container-exit 
         """
+        docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
+            sh """
+                docker-compose up --abort-on-container-exit 
+                docker rm test tor-socks-proxy
+            """
+        }
     }
-}
-
-@NonCPS
-def sortReverse(list) {
-    list.reverse()
-}
-
-def getDockerImageTags(url) {
-    def myjson = getUrl(url)
-    def json = jsonParse(myjson);
-    def tags = json.name
-    tags
-}
-
-def jsonParse(json) {
-    new groovy.json.JsonSlurper().parseText(json)
-}
-
-def getUrl(url) {
-    sh(returnStdout: true, script: "curl -s ${url} 2>&1 | tee result.json")
-    def data = readFile('result.json').trim()
-    data
 }
