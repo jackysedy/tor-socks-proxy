@@ -1,0 +1,5 @@
+FROM frolvlad/alpine-bash
+RUN apk add --no-cache curl
+COPY test.sh /
+RUN chmod +x /test.sh 
+CMD ["bash", "/test.sh"]
