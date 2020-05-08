@@ -10,7 +10,7 @@ while [[ $(date -u +%s) -le $endtime ]]
 do
     TorIP=$(curl -s --socks5-hostname tor-socks-proxy:9150 https://ipecho.net/plain)
     echo "new IP $TorIP"
-    if [ $lastIP = $TorIP ]; then
+    if [ "$lastIP" = "$TorIP" ]; then
         echo "Test Fail : last IP = $lastIP New IP = $TorIP" 
         exit 1
     fi
