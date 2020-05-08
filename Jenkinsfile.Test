@@ -3,6 +3,8 @@ import groovy.json.JsonSlurper
 properties([
         parameters([
             choice(name: 'DockerTAG', choices: JustTest().join('\n'), description: 'Docker TAGS'),
+            string(name: 'Tag', defaultValue: ''),
+            string(name: 'Port', defaultValue: ''),
         ])
     ])
 def JustTest(){
