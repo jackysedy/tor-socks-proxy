@@ -18,13 +18,10 @@ services:
     image: test:latest
     environment:
      - PORT=XXXX
-    networks:
-      - test
-     
+    network_mode: host 
      
 networks:
   proxy:
     driver: bridge
-  test:
-    driver: bridge
+
      
