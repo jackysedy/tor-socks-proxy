@@ -5,4 +5,5 @@ node {
         def customImage = docker.build("jackysedi/tor-socks-proxy:${BUILD_NUMBER}")
         customImage.push()
     }
+    build 'test'
 }
