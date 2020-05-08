@@ -3,10 +3,11 @@ node {
     sh """
         env
     """
+
     def Port
     println BRANCH_NAME
     
-    
+
     git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
     if (BRANCH_NAME.contains('master')){
         sh """
