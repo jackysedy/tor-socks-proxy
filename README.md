@@ -1,10 +1,8 @@
 
 
-# Tor-socks-proxy
+# DevOps Assignment Tor-socks-proxy
 
 ## Usage
-
-DevOps Assignment
 
 1. Fork tor-socks-proxy
 2. Understand what is tor and tor socks proxy, how to change timing...
