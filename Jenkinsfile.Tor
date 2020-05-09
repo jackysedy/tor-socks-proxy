@@ -16,7 +16,7 @@ node {
     sh """
        git checkout $BRANCH
     """
-    if (BRANCH.contains('master')){
+    if (BRANCH.contains('release')){
         sh """
             sed -i 's/XXXX/7293/g' Dockerfile
         """
