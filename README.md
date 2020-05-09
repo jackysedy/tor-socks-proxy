@@ -35,7 +35,9 @@ Assumption 2: the tag of the image should contains the build number and the port
    Phase 1:
      - Build Test service
      - Run docker-compose 
+     
 	- Pull the last Image from Docker Hub
+	
         - Start the 2 services, Test service wait 10 sec that the proxy be ready, and then start to send 
           request every 10 sec to 2 min. If 2 new Ips are the same exit with code 1, and that means                 
           the test fails, and also the job fails.	  
