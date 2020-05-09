@@ -2,12 +2,12 @@ import groovy.json.JsonSlurper
 
 properties([
         parameters([
-            choice(name: 'DockerTAG', choices: JustTest().join('\n'), description: 'Docker TAGS'),
+            choice(name: 'DockerTAG', choices: ChooseImage().join('\n'), description: 'Docker TAGS'),
             string(name: 'Tag', defaultValue: ''),
             string(name: 'Port', defaultValue: ''),
         ])
     ])
-def JustTest(){
+def ChooseImage(){
     docker_image_tags_url = "https://hub.docker.com/v2/repositories/jackysedi/tor-socks-proxy/tags/?page_size=20"
     try {
         def http_client = new URL(docker_image_tags_url).openConnection() as HttpURLConnection
