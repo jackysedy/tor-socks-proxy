@@ -5,12 +5,16 @@ node {
     """
     def Port
     println TAG_NAME
-    BRANCH = sh (
+    git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
+    BRANCHS = sh (
        returnStdout: true,
        script: 'git branch -a --contains tags/$TAG_NAME'
     ).trim()
-    println "Building branch $BRANCH"
-    checkout([$class: 'GitSCM', branches: [[name: 'BRANCH']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy']]])
+    def values = BRANCHS.split(' ')
+    BRANCH = values[0]
+    sh """
+       git checkout $BRANCH
+    """
     if (BRANCH.contains('master')){
         sh """
             sed -i 's/XXXX/7293/g' Dockerfile
