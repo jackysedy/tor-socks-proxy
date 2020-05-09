@@ -4,9 +4,13 @@ node {
         env
     """
     def Port
-    println BRANCH_NAME
-   
-    git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
+    println TAG_NAME
+    BRANCH = sh (
+       returnStdout: true,
+       script: 'git branch -a --contains tags/$TAG_NAME'
+    ).trim()
+    println "Building branch $BRANCH"
+    checkout([$class: 'GitSCM', branches: [[name: 'BRANCH']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy']]])
     if (BRANCH_NAME.contains('release')){
         sh """
             sed -i 's/XXXX/7293/g' Dockerfile
