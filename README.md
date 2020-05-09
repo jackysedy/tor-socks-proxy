@@ -21,8 +21,8 @@ Assumption 1: Each of the service should be in different network, the test servi
           - Trigger Test Job
     Phase 2:
 	- Add the ability to recognize from which branch building the image and to update the expose 
-               port respectively. As just need to change one string in a file I selected to use sed command.
-- Trigger Test Job with Build number as tag and port
+          port respectively. As just need to change one string in a file I selected to use sed command.
+        - Trigger Test Job with Build number as tag and port
 
 Assumption 2: the tag of the image should contains the build number and the port that the image expose like, ${BUILD_NUMBER}_${Port}.
 
