@@ -10,6 +10,7 @@ node {
        returnStdout: true,
        script: 'git branch -a --contains tags/$TAG_NAME'
     ).trim()
+    BRANCHS = BRANCHS - "remotes/origin/"
     def values = BRANCHS.split(' ')
     BRANCH = values[0]
     sh """
