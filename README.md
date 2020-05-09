@@ -15,6 +15,9 @@ Assumption 1: Each of the service should be in different network, the test servi
 
 3. Create Docker Hub repository
 4. Configure Jenkins to work with GitHub and Docker Hub
+
+Assumption 2: Using Jenkins Organization Folder Events, as I can't recieve webhoock from github to my network.
+
 5. Write Jenkinsfile.Tor
     
     Phase 1: 
@@ -27,8 +30,15 @@ Assumption 1: Each of the service should be in different network, the test servi
       - Add the ability to recognize from which branch building the image and to update the expose 
           port respectively. As just need to change one string in a file I selected to use sed command.
       - Trigger Test Job with Build number as tag and port
+      
+    Phase 3: 
+    
+      - Add Basic Branch Build Strategies Plugin to Jenkins, and change the build strategies from build on commites or   
+         PR, to build just on TAG commites.
+      - Update Jenkinsfile to calculate from which branch to build.	 
 
-Assumption 2: the tag of the image should contains the build number and the port that the image expose like, ${BUILD_NUMBER}_${Port}.
+
+Assumption 3: the tag of the image should contains the build number and the port that the image expose like, ${BUILD_NUMBER}_${Port}.
 
 6. Write Jenkinsfile.Test
    
@@ -45,7 +55,7 @@ Assumption 2: the tag of the image should contains the build number and the port
       - Add the ability to test the expose port, update docker-compose with the different ports, to run
           the proxy service and the environment variable for the test service.
       - Add the ability to manually trigger test.
-   
+      
    Phase 3: 
       - Add the ability of user select image from Docker Hub dynamically. 
 
