@@ -9,7 +9,7 @@ node {
        returnStdout: true,
        script: 'git branch -a --contains tags/$TAG_NAME'
     ).trim()
-    println BRANCH
+    println "Building branch $BRANCH"
     checkout([$class: 'GitSCM', branches: [[name: 'BRANCH']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy']]])
     if (BRANCH.contains('master')){
         sh """
