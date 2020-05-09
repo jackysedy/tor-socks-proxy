@@ -11,12 +11,13 @@ node {
        returnStdout: true,
        script: 'git branch -a --contains tags/$TAG_NAME'
     ).trim()
+    BRANCHS = BRANCHS - "remotes/origin/"
     def values = BRANCHS.split(' ')
     BRANCH = values[0]
     sh """
        git checkout $BRANCH
     """
-    if (BRANCH.contains('master')){
+    if (BRANCH.contains('release')){
         sh """
             sed -i 's/XXXX/7293/g' Dockerfile
         """
