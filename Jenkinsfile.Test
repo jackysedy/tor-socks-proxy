@@ -59,7 +59,7 @@ node {
             cd ..
         """
         docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-            docker push jackysedi/test:latest
+            docker push test:latest
         }
         docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
             sh """
