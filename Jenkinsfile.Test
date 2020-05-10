@@ -59,8 +59,7 @@ node {
             cd ..
         """
         docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-                def customImage = docker.build("jackysedi/test:latest")
-                customImage.push()
+            docker push jackysedi/test:latest
         }
         docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
             sh """
