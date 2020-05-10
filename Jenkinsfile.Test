@@ -53,13 +53,15 @@ node {
                 
             """
         }
+        
+        docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
         sh """
             cd test
             docker build --no-cache -t test .
+            docker push test:latest
             cd ..
         """
-        docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-            docker push test:latest
+            
         }
         docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
             sh """
