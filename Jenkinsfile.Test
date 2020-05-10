@@ -53,15 +53,18 @@ node {
                 
             """
         }
-        
-        docker.withRegistry('https://registry-1.docker.io/v2/repositories/jackysedi/tor-socks-proxy', 'dockerhub') {
         sh """
-            cd test
-            docker build --no-cache -t test .
-            docker push test:latest
-            cd ..
+         #   cd test
+         #   docker build --no-cache -t test .
+         #   docker push test:latest
+         #   cd ..
         """
-            
+        
+        docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
+           dir(test){
+                def customImage = docker.build("jackysedi/tor-socks-proxy:${BUILD_NUMBER}_${Port}")
+                customImage.push()
+            }
         }
         docker.withRegistry('https://registry.hub.docker.com/v1/repositories/jackysedi/tor-socks-proxy') {
             sh """
