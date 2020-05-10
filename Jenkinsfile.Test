@@ -61,7 +61,7 @@ node {
         """
         
         docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-           dir(test){
+           dir('test'){
                 def customImage = docker.build("jackysedi/test:latest")
                 customImage.push()
             }
