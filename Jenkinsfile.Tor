@@ -1,8 +1,6 @@
 
 node {
-    sh """
-        env
-    """
+    sh """  env """
     def Port
     println TAG_NAME
 
