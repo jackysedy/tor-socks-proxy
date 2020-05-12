@@ -5,7 +5,6 @@ node {
     """
     def Port
     println TAG_NAME
-
     git credentialsId: 'cced35f3-1bac-42ef-81d3-960072464a3b', url: 'https://github.com/jackysedy/tor-socks-proxy'
     BRANCHS = sh (
        returnStdout: true,
