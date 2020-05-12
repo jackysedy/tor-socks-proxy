@@ -56,7 +56,7 @@ node {
         sh """
             cd test
             docker build --no-cache -t test .
-            docker push test:latest
+            
             cd ..
         """
         
