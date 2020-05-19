@@ -15,6 +15,6 @@ do
         exit 1
     fi
     lastIP=$TorIP
-    sleep 5
+    sleep 10
 done
 
